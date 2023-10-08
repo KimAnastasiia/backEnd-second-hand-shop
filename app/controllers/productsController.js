@@ -26,6 +26,17 @@ productsController = {
 			return res.status(errors[0].code).json({ errors: errors} )
 		}
 	},
+	postPhotosOfProduct: async (req, res) => {
+		try {
+			let {productId} = req.body
+			let file = req.files.photos
+			const answer = await productService.postProductPhotos( file, productId, req.infoInApiKey.id )
+			return res.json(answer)
+		}
+		catch (errors) {
+			return res.status(errors[0].code).json({ errors: errors} )
+		}
+	},
 	getProduct: async (req, res) => {
 		try {
 			let id = req.params.id

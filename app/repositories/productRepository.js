@@ -29,6 +29,24 @@ productsRepository = {
 
         return insertInfo
 	},
+    addProductPhoto: (file, index,  productId, userId) => {
+        return new Promise( (resolve) => {
+
+
+            file.mv('images/' + userId+productId+file+index+'.png', async (err) => {
+
+                if(err){
+                    console.log(err)
+                    resolve(true)
+                }
+                resolve(true)
+            
+            })
+
+            //setTimeout(() => resolve(true), 3000)
+        })
+       
+	},
     getProductByName: async (name) => {
         let product = null;
 

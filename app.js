@@ -8,6 +8,8 @@ const app = express();
 const cors = require('cors')
 
 app.use(cors())
+var fileUpload = require('express-fileupload');
+app.use(fileUpload());
 app.use(express.json())
 
 initMiddlewares(app)
