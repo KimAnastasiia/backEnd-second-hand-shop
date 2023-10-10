@@ -27,10 +27,10 @@ productsService = {
 
         return product.insertId
     },
-    postProductPhotos: async (files, productId, userId) => {
+    postProductPhotos: async (file, productId, userId) => {
         let errors = []
-        if (files.length < 1)
-            errors.push(new InputError("files", 'files is undefined'));
+        if (file==null)
+            errors.push(new InputError("file", 'file is undefined'));
         if (productId == undefined)
             errors.push(new InputError("productId", 'productId is undefined'));
         if (userId == undefined)
@@ -39,29 +39,15 @@ productsService = {
         if (errors.length > 0)
             throw errors
         let answer = { finish: true }
-        files.forEach(async (file, index) => {
 
-            //answer = await productRepository.addProductPhoto(file,index, productId, userId);
-            let promiseAwnser = await new Promise( (resolve) => {
+        file.mv('public/images/' + userId+productId.toString() +'.png', async (err) => {
 
-                file.mv('images/' + userId+productId+file+index+'.png', async (err) => {
-    
-                    if(err){
-                        console.log(err)
-                        resolve(true)
-                    }
-                    resolve(true)
+            if(err){
                 
-                })
-            })
+                return {error:"error"}
+            }
 
-            if (promiseAwnser == null)
-                errors.push(new LogicError('Error in uploading images for product ' + productId));
-
-            // Errors in the logic of service
-            if (errors.length > 0)
-                throw errors
-            //return
+        
         })
 
 
