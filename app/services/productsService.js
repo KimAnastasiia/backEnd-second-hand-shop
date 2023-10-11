@@ -27,20 +27,18 @@ productsService = {
 
         return product.insertId
     },
-    postProductPhotos: async (file, productId, userId) => {
+    postProductPhotos: async (file, productId) => {
         let errors = []
         if (file==null)
             errors.push(new InputError("file", 'file is undefined'));
         if (productId == undefined)
             errors.push(new InputError("productId", 'productId is undefined'));
-        if (userId == undefined)
-            errors.push(new InputError("userId", 'userId is undefined'));
         // Errors in client INPUTS
         if (errors.length > 0)
             throw errors
         let answer = { finish: true }
 
-        file.mv('public/images/' + userId+productId.toString() +'.png', async (err) => {
+        file.mv('public/images/' +productId+'.png', async (err) => {
 
             if(err){
                 
@@ -125,7 +123,21 @@ productsService = {
             throw errors
 
         return products
-    }
+    },
+    getAllProductsOfUser: async (sellerId) => {
+        let errors = []
+
+        let products = await productRepository.getAllProductsOfUser(sellerId);
+
+        if (products == null)
+            errors.push(new LogicError('Error when get the products'));
+
+        // Errors in the logic of service
+        if (errors.length > 0)
+            throw errors
+
+        return products
+    },
 }
 
 module.exports = productsService

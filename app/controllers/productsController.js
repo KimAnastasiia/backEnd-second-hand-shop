@@ -30,7 +30,7 @@ productsController = {
 		try {
 			let {productId} = req.body
 			let file = req.files.photos
-			const answer = await productService.postProductPhotos( file, productId, req.infoInApiKey.id )
+			const answer = await productService.postProductPhotos( file, productId)
 			return res.json(answer)
 		}
 		catch (errors) {
@@ -50,6 +50,16 @@ productsController = {
 	getProducts: async (req, res) => {
 		try {
 			const products = await productService.getProducts()
+			return res.json(products)
+		}
+		catch (errors) {
+			return res.status(errors[0].code).json({ errors: errors} )
+		}
+	},
+	getAllProductsOfUser: async (req, res) => {
+		try {
+			let id = req.params.id
+			const products = await productService.getAllProductsOfUser(id)
 			return res.json(products)
 		}
 		catch (errors) {

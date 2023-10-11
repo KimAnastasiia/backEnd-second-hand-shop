@@ -29,23 +29,6 @@ productsRepository = {
 
         return insertInfo
 	},
-    getProductByName: async (name) => {
-        let product = null;
-
-        try{
-            await database.connect();
-            let arrayProducts = await database.query("SELECT * FROM products")
-            if ( arrayProducts > 0){
-                product = arrayProducts[0]
-            }
-            await database.disconnect();
-        } catch (e){
-            await database.disconnect();
-            console.log(e) // ERROR IN DATABASE OR SQL
-        }
-
-        return product
-	},
     getProducts: async () => {
         let products = null;
 
@@ -76,7 +59,21 @@ productsRepository = {
         } 
 
         return product
-	}
+	},
+    getAllProductsOfUser: async (sellerId) => {
+        let products = null;
+
+        try{
+            await database.connect();
+            products = await database.query("SELECT * FROM products where sellerId="+sellerId)
+            await database.disconnect();
+        } catch (e){
+            await database.disconnect();
+            console.log(e) // ERROR IN DATABASE OR SQL
+        }
+
+        return products
+	},
 }
 
 module.exports = productsRepository

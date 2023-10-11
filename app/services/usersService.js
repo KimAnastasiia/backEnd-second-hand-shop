@@ -39,7 +39,8 @@ productsService = {
 
         return {
             apiKey : apiKey,
-            email : email
+            email : email,
+            id:users[0].id
         }
 	},
 	createUser: async (email, password) => {
