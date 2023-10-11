@@ -34,7 +34,7 @@ productsRepository = {
 
         try{
             await database.connect();
-            products = await database.query("SELECT * FROM products")
+            products = await database.query("SELECT * FROM products where buyerId is NULL")
             await database.disconnect();
         } catch (e){
             await database.disconnect();
