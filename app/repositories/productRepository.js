@@ -15,6 +15,20 @@ productsRepository = {
 
         return modifiedInfo
 	},
+    editBuyerId: async (buyerId, id) => {
+        let modifiedInfo = null;
+        try{
+            await database.connect();
+            modifiedInfo = await database.query("UPDATE products SET buyerId = ? WHERE id = ? AND buyerId IS NULL AND ? != sellerId",
+                [buyerId, id, buyerId])
+            await database.disconnect();
+        } catch (e){
+            await database.disconnect();
+            console.log(e) // ERROR IN DATABASE OR SQL
+        }
+
+        return modifiedInfo
+    },
     addProduct: async (sellerId, date, title, description, price) => {
         let insertInfo = null;
         try{

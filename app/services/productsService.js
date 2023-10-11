@@ -89,6 +89,29 @@ productsService = {
 
         return true
     },
+    putBuyerIdOfProduct: async (buyerId, id) => {
+        let errors = []
+
+        if (buyerId == undefined)
+            errors.push(new InputError("buyerId", 'Not valid buyer Id'));
+        if (id == undefined)
+            errors.push(new InputError("id", 'id is undefined'));
+        
+        // Errors in client INPUTS
+        if (errors.length > 0)
+            throw errors
+
+        let modified = await productRepository.editBuyerId(buyerId, id);
+
+        if (modified == null)
+            errors.push(new LogicError('Error when buying the product'));
+
+        // Errors in the logic of service
+        if (errors.length > 0)
+            throw errors
+
+        return true
+    },
     getProduct: async (id) => {
         let errors = []
 

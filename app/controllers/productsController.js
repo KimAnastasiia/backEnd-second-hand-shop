@@ -14,6 +14,16 @@ productsController = {
 			return res.status(errors[0].code).json({ errors: errors} )
 		}
 	},
+	putProductBuyerId: async (req, res) => {
+		try {
+			let { buyerId, id} = req.body
+			await productService.putBuyerIdOfProduct(buyerId, id)
+			return res.json({"buyed": true})
+		}
+		catch (errors) {
+			return res.status(errors[0].code).json({ errors: errors} )
+		}
+	},
 	postProduct: async (req, res) => {
 		try {
 			let { title, description, price } = req.body
