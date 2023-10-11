@@ -101,6 +101,14 @@ productsService = {
         if (errors.length > 0)
             throw errors
 
+        let product = await productRepository.getProduct(id);
+
+        if(product.sellerId==buyerId)
+            errors.push(new LogicError('Error, you can not buy your product'));
+        
+        if (errors.length > 0)
+            throw errors
+
         let modified = await productRepository.editBuyerId(buyerId, id);
 
         if (modified == null)
