@@ -5,6 +5,7 @@ const usersRouter = express.Router();
 
 usersRouter.post("/login",usersController.loginUser);
 usersRouter.post("/",usersController.postUser);
+usersRouter.post("/photo",usersController.postUserPhoto);
 usersRouter.post("/disconnect", usersController.disconnect);
 usersRouter.get("/isActiveApiKey", usersController.isActiveApiKey);
 

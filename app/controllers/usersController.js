@@ -21,6 +21,17 @@ usersController = {
 			return res.status(errors[0].code).json({ errors: errors} )
 		}
 	},
+	postUserPhoto: async (req, res) => {
+		try {
+			let {userId} = req.body
+			let file = req.files.photo
+			const answer = await usersService.createUserPhoto(file, userId)
+			return res.json(answer)
+		}
+		catch (errors) {
+			return res.status(errors[0].code).json({ errors: errors} )
+		}
+	},
 	disconnect: async (req, res) => {
 		try {
 			let apikey = req.headers.apikey 

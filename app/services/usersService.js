@@ -83,6 +83,33 @@ productsService = {
 
         return user.insertId;
     },
+    createUserPhoto: async (file, userId) => {
+
+        let errors = []
+        if (file==null)
+            errors.push(new InputError("file", 'file is undefined'));
+        if (userId == undefined)
+            errors.push(new InputError("userId", 'userId is undefined'));
+        // Errors in client INPUTS
+        if (errors.length > 0)
+            throw errors
+        let answer = { finish: true }
+        return new Promise( (resolve) => {
+
+            file.mv('public/images/' +userId+'user.png', async (err) => {
+
+                if(err){
+                    
+                    return {error:"error"}
+                }
+
+            
+            })
+
+
+            resolve (answer)
+        })
+    },
     disconnect: async (apikey) => {
         let errors = []
 
