@@ -5,7 +5,7 @@ productsRepository = {
         let users = null;
         try{
             await database.connect();
-            users = await database.query("SELECT * FROM users WHERE email = ?",[email])
+            users = await database.query("SELECT email, name, surname, birthday,country,adress, postalCode, id FROM users WHERE email = ?",[email])
             await database.disconnect();
         } catch (e){
             await database.disconnect();

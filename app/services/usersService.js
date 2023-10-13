@@ -10,7 +10,7 @@ productsService = {
         let errors = []
 
         if (email == undefined)
-            errors.push(new InputError("email", 'name is undefined'));
+            errors.push(new InputError("email", 'email is undefined'));
         if (password == undefined)
             errors.push(new InputError("password", 'password is undefined'));
         // Errors in client INPUTS
