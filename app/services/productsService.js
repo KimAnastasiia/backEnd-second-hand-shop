@@ -157,6 +157,12 @@ productsService = {
     },
     getAllProductsOfUser: async (sellerId) => {
         let errors = []
+        
+        if (sellerId == undefined)
+            errors.push(new InputError("sellerId", 'sellerId is undefined'));
+    
+        if (errors.length > 0)
+            throw errors
 
         let products = await productRepository.getAllProductsOfUser(sellerId);
 
