@@ -15,5 +15,18 @@ creditCartsRepository = {
 
         return alias
 	},
+    addCart: async (userId, number, expirationCart, code, alias) => {
+        let cart = null;
+        try{
+            await database.connect();
+            cart = await database.query("INSERT INTO creditcarts (userId, number, expirationDate, code, alias) VALUES (?,?,?,?,?)",[userId, number, expirationCart, code, alias])
+            await database.disconnect();
+        } catch (e){
+            await database.disconnect();
+            console.log(e) // ERROR IN DATABASE OR SQL
+        }
+
+        return cart
+	},
 }
 module.exports =creditCartsRepository
