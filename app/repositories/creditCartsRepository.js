@@ -6,7 +6,7 @@ creditCartsRepository = {
         let alias = null;
         try{
             await database.connect();
-            alias = await database.query("SELECT alias FROM creditcarts WHERE userId = ? ",[userId])
+            alias = await database.query("SELECT alias FROM creditcarts WHERE userId = ?",[userId])
             await database.disconnect();
         } catch (e){
             await database.disconnect();

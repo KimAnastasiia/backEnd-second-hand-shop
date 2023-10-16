@@ -6,8 +6,8 @@ creditCartsController = {
        
         try {
             let userId = req.infoInApiKey.id 
-            const alias =getAlias(userId)
-            return res.json(alias)
+            let alias =await getAlias(userId)
+            return res.json({data:alias})
         }
         catch (errors) {
             return res.status(errors[0].code).json({ errors: errors} )
