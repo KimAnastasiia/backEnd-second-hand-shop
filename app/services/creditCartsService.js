@@ -1,4 +1,4 @@
-const { getAlias, addCart } = require('../repositories/creditCartsRepository')
+const { getAlias, addCart, deleteCart } = require('../repositories/creditCartsRepository')
 const InputError = require('../errors/inputError')
 const LogicError = require('../errors/logicError')
 
@@ -52,5 +52,26 @@ creditCartsService = {
 
         return answer
     },
+    deleteCart: async (userId, id) => {
+        let errors = []
+
+        if (userId == undefined)
+            errors.push(new InputError("userId", 'userId is undefined'));
+        if (id == undefined)
+            errors.push(new InputError("id", 'id is undefined'));
+            if (errors.length > 0)
+            throw errors
+
+        let answer = await deleteCart(userId, id);
+
+        if (answer == null)
+            errors.push(new LogicError('Error when delete cart'));
+
+        // Errors in the logic of service
+        if (errors.length > 0)
+            throw errors
+
+        return answer
+    }
 }
 module.exports = creditCartsService

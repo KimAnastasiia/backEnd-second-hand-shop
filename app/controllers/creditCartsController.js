@@ -1,4 +1,4 @@
-const {getAlias, postCart} = require('../services/creditCartsService')
+const {getAlias, postCart, deleteCart} = require('../services/creditCartsService')
 
 creditCartsController = {
 
@@ -21,6 +21,18 @@ creditCartsController = {
             let userId = req.infoInApiKey.id 
             const cart =postCart( userId,number, expirationCart, code, alias)
             return res.json(cart)
+        }catch (errors) {
+            return res.status(errors[0].code).json({ errors: errors} )
+        }
+        
+    },
+    deleteCart: async (req, res) => {
+       
+        try {
+            let {id} = req.body
+            let userId = req.infoInApiKey.id 
+            const answer =deleteCart( userId,id)
+            return res.json(answer)
         }catch (errors) {
             return res.status(errors[0].code).json({ errors: errors} )
         }

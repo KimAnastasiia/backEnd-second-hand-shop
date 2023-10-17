@@ -6,7 +6,7 @@ creditCartsRepository = {
         let alias = null;
         try{
             await database.connect();
-            alias = await database.query("SELECT alias FROM creditcarts WHERE userId = ?",[userId])
+            alias = await database.query("SELECT alias, id FROM creditcarts WHERE userId = ?",[userId])
             await database.disconnect();
         } catch (e){
             await database.disconnect();
@@ -20,6 +20,20 @@ creditCartsRepository = {
         try{
             await database.connect();
             cart = await database.query("INSERT INTO creditcarts (userId, number, expirationDate, code, alias) VALUES (?,?,?,?,?)",[userId, number, expirationCart, code, alias])
+            await database.disconnect();
+        } catch (e){
+            await database.disconnect();
+            console.log(e) // ERROR IN DATABASE OR SQL
+        }
+
+        return cart
+	},
+    deleteCart: async (userId, id) => {
+
+        let cart = null;
+        try{
+            await database.connect();
+            cart = await database.query("DELETE FROM creditcarts WHERE userId=? and id=?", [userId, id])
             await database.disconnect();
         } catch (e){
             await database.disconnect();
