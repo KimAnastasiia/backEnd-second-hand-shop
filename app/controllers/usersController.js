@@ -13,8 +13,8 @@ usersController = {
 	},
 	postUser: async (req, res) => {
 		try {
-			let { email, password, name, surname, birthday, documentNumber, country, adress, postalCode, documentIdentity } = req.body
-			const userId = await usersService.createUser(email, password,  name, surname, birthday, documentNumber, country, adress, postalCode,documentIdentity)
+			let { email, password, name, surname, birthday, documentNumber, country, address, postalCode, documentIdentity } = req.body
+			const userId = await usersService.createUser(email, password,  name, surname, birthday, documentNumber, country, address, postalCode,documentIdentity)
 			return res.json({"userId": userId})
 		}
 		catch (errors) {

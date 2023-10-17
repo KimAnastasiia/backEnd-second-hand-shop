@@ -43,7 +43,7 @@ productsService = {
             id: users[0].id
         }
     },
-    createUser: async (email, password, name, surname, birthday, documentNumber, country, adress, postalCode, documentIdentity) => {
+    createUser: async (email, password, name, surname, birthday, documentNumber, country, address, postalCode, documentIdentity) => {
         let errors = []
 
         if (email == undefined)
@@ -72,7 +72,7 @@ productsService = {
         let user = {}
         // try to insert the user
         if (usersWithsameEmail.length == 0) {
-            user = await userRepository.createUser(email, password, name, surname, birthday, documentNumber, country, adress, postalCode, documentIdentity);
+            user = await userRepository.createUser(email, password, name, surname, birthday, documentNumber, country, address, postalCode, documentIdentity);
             if (user == null)
                 errors.push(new LogicError('Error when create the user '));
         }

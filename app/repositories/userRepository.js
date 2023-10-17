@@ -5,7 +5,7 @@ productsRepository = {
         let users = null;
         try{
             await database.connect();
-            users = await database.query("SELECT email, name, surname, birthday,country,adress, postalCode, id FROM users WHERE email = ?",[email])
+            users = await database.query("SELECT email, name, surname, birthday,country,address, postalCode, id FROM users WHERE email = ?",[email])
             await database.disconnect();
         } catch (e){
             await database.disconnect();
@@ -27,12 +27,12 @@ productsRepository = {
 
         return users
 	},
-    createUser: async (email, password, name, surname, birthday, documentNumber, country,adress, postalCode, documentIdentity) => {
+    createUser: async (email, password, name, surname, birthday, documentNumber, country,address, postalCode, documentIdentity) => {
         let insertInfo = null;
 
         try{
             await database.connect();
-            insertInfo = await database.query("INSERT INTO users (email,password,name, surname, birthday, documentNumber, country,adress, postalCode, documentIdentity) VALUES (?,?,?,?,?,?,?,?,?,?)",[email,password,name, surname, birthday, documentNumber, country,adress, postalCode, documentIdentity])
+            insertInfo = await database.query("INSERT INTO users (email,password,name, surname, birthday, documentNumber, country,address, postalCode, documentIdentity) VALUES (?,?,?,?,?,?,?,?,?,?)",[email,password,name, surname, birthday, documentNumber, country,address, postalCode, documentIdentity])
             await database.disconnect();
         } catch (e){
             await database.disconnect();
