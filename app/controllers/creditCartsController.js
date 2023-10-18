@@ -19,7 +19,7 @@ creditCartsController = {
         try {
             let { number, expirationCart, code, alias} = req.body
             let userId = req.infoInApiKey.id 
-            const cart =postCart( userId,number, expirationCart, code, alias)
+            const cart = await postCart( userId,number, expirationCart, code, alias)
             return res.json(cart)
         }catch (errors) {
             return res.status(errors[0].code).json({ errors: errors} )
@@ -31,7 +31,7 @@ creditCartsController = {
         try {
             let {id} = req.body
             let userId = req.infoInApiKey.id 
-            const answer =deleteCart( userId,id)
+            const answer = await deleteCart( userId,id)
             return res.json(answer)
         }catch (errors) {
             return res.status(errors[0].code).json({ errors: errors} )
