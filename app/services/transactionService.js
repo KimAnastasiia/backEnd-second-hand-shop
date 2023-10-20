@@ -1,4 +1,5 @@
 const { getTransactionInfo, addTransaction } = require('../repositories/transactionRepository')
+const { getUserForTransaction } = require('../repositories/userPrivateRepository')
 const InputError = require('../errors/inputError')
 const LogicError = require('../errors/logicError')
 
@@ -23,19 +24,13 @@ transactionService = {
 
         return answer
     },
-    postTransaction: async (buyerId, sellerId, sellerCountry, selerAddress, sellerPostCode, productId, productPrice, sellerPaymentName) => {
+    postTransaction: async (buyerId, sellerId, productId, productPrice, sellerPaymentName) => {
         let errors = []
 
         if (buyerId == undefined)
             errors.push(new InputError("buyerId", 'buyerId is undefined'));
         if (sellerId == undefined)
             errors.push(new InputError("sellerId", 'sellerId is undefined'));
-        if (sellerCountry == undefined)
-            errors.push(new InputError("sellerCountry", 'sellerCountry is undefined'));
-        if (selerAddress == undefined)
-            errors.push(new InputError("selerAddress", 'selerAddress is undefined'));
-        if (sellerPostCode == undefined)
-            errors.push(new InputError("sellerPostCode", 'sellerPostCode is undefined'));
         if (productId == undefined)
             errors.push(new InputError("productId", 'productId is undefined'));
         if (productPrice == undefined)
@@ -47,7 +42,12 @@ transactionService = {
         if (errors.length > 0)
             throw errors
 
-        let answer = await addTransaction(buyerId, sellerId, sellerCountry, selerAddress, sellerPostCode, productId, productPrice, sellerPaymentName);
+        let sellerInfo = await getUserForTransaction(sellerId)
+        let {country,address, postalCode} =sellerInfo[0]
+        if (sellerInfo == null)
+            errors.push(new LogicError('Error when get seller info'));
+
+        let answer = await addTransaction(buyerId, sellerId, country, address, postalCode, productId, productPrice, sellerPaymentName);
 
         if (answer == null)
             errors.push(new LogicError('Error when add the transaction'));

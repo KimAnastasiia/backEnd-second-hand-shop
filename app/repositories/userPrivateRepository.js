@@ -15,6 +15,19 @@ userPrivateRepository = {
 
         return users
 	},
+    getUserForTransaction: async (sellerId) => {
+        let users = null;
+        try{
+            await database.connect();
+            users = await database.query("SELECT country, address, postalCode  FROM users WHERE id = ? ",[sellerId])
+            await database.disconnect();
+        } catch (e){
+            await database.disconnect();
+            console.log(e) // ERROR IN DATABASE OR SQL
+        }
+
+        return users
+	},
     editUserInfo: async (password, name, surname, documentIdentity, birthday, documentNumber, country, address, postalCode, userId ) => {
         let modifiedInfo = null;
         try{

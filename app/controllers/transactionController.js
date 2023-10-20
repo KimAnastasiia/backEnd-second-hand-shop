@@ -16,8 +16,9 @@ transactionController = {
     postTransaction: async (req, res) => {
        
         try {
-            let { buyerId, sellerId, sellerCountry, selerAddress, sellerPostCode, productId, productPrice, sellerPaymentName} = req.body
-            const insertInfo = await postTransaction( buyerId, sellerId, sellerCountry, selerAddress, sellerPostCode, productId, productPrice, sellerPaymentName)
+            let userId = req.infoInApiKey.id 
+            let { sellerId, id, price,sellerPaymentName } = req.body
+            const insertInfo = await postTransaction( userId, sellerId, id, price,sellerPaymentName )
             return res.json(insertInfo)
         }catch (errors) {
             return res.status(errors[0].code).json({ errors: errors} )

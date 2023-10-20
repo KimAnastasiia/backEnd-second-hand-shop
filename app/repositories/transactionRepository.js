@@ -19,7 +19,7 @@ transactionRepository = {
         let insertInfo = null;
         try{
             await database.connect();
-            insertInfo = await database.query("INSERT INTO transaction (buyerId, sellerId, sellerCountry, selerAddress, sellerPostCode, productId, productPrice, sellerPaymentName) VALUES (?,?,?,?,?,?,?,?)",
+            insertInfo = await database.query("INSERT INTO transaction (buyerId, sellerId, sellerCountry, sellerAddress, sellerPostCode, productId, productPrice, sellerPaymentName) VALUES (?,?,?,?,?,?,?,?)",
                 [buyerId, sellerId, sellerCountry, selerAddress, sellerPostCode, productId, productPrice, sellerPaymentName])
             await database.disconnect();
         } catch (e){
