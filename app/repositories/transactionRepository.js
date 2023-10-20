@@ -6,7 +6,7 @@ transactionRepository = {
 
         try{
             await database.connect();
-            info = await database.query("SELECT * FROM transaction where buyerId = ? or sellerId = ?",[buyerId, buyerId])
+            info = await database.query("SELECT * FROM transaction where buyerId = ?",[buyerId])
             await database.disconnect();
         } catch (e){
             await database.disconnect();

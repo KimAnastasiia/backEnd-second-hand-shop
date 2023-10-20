@@ -13,7 +13,7 @@ transactionService = {
         if (errors.length > 0)
             throw errors
 
-        let answer = await getTransactionInfo(buyerId, sellerId);
+        let answer = await getTransactionInfo(buyerId);
 
         if (answer == null)
             errors.push(new LogicError('Error when get the transactions of user ' + buyerId));
