@@ -18,8 +18,8 @@ transactionController = {
        
         try {
             let userId = req.infoInApiKey.id 
-            let { sellerId, id, price,sellerPaymentName } = req.body
-            const insertInfo = await postTransaction( userId, sellerId, id, price,sellerPaymentName )
+            let { sellerId, id, price, buyerPaymentName } = req.body
+            const insertInfo = await postTransaction( userId, sellerId, id, price,buyerPaymentName )
             return res.json(insertInfo)
         }catch (errors) {
             return res.status(errors[0].code).json({ errors: errors} )

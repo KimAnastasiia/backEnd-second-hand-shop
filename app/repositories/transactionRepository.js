@@ -39,12 +39,12 @@ transactionRepository = {
 
         return info
     },
-    addTransaction: async (buyerId, sellerId, sellerCountry, sellerAddress, sellerPostCode, productId, productPrice, sellerPaymentName) => {
+    addTransaction: async (buyerId, sellerId, sellerCountry, sellerAddress, sellerPostCode, productId, productPrice, buyerPaymentName) => {
         let insertInfo = null;
         try{
             await database.connect();
-            insertInfo = await database.query("INSERT INTO transaction (buyerId, sellerId, sellerCountry, sellerAddress, sellerPostCode, productId, productPrice, sellerPaymentName) VALUES (?,?,?,?,?,?,?,?)",
-                [buyerId, sellerId, sellerCountry, sellerAddress, sellerPostCode, productId, productPrice, sellerPaymentName])
+            insertInfo = await database.query("INSERT INTO transaction (buyerId, sellerId, sellerCountry, sellerAddress, sellerPostCode, productId, productPrice, buyerPaymentName) VALUES (?,?,?,?,?,?,?,?)",
+                [buyerId, sellerId, sellerCountry, sellerAddress, sellerPostCode, productId, productPrice, buyerPaymentName])
             await database.disconnect();
         } catch (e){
             await database.disconnect();

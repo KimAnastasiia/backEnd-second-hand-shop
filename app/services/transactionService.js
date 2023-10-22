@@ -27,7 +27,7 @@ transactionService = {
 
         return answer
     },
-    postTransaction: async (buyerId, sellerId, productId, productPrice, sellerPaymentName) => {
+    postTransaction: async (buyerId, sellerId, productId, productPrice, buyerPaymentName) => {
         let errors = []
 
         if (buyerId == undefined)
@@ -38,8 +38,8 @@ transactionService = {
             errors.push(new InputError("productId", 'productId is undefined'));
         if (productPrice == undefined)
             errors.push(new InputError("productPrice", 'productPrice is undefined'));
-        if (sellerPaymentName == undefined)
-            errors.push(new InputError("sellerPaymentName", 'sellerPaymentName is undefined'));
+        if (buyerPaymentName == undefined)
+            errors.push(new InputError("buyerPaymentName", 'buyerPaymentName is undefined'));
 
         // Errors in client INPUTS
         if (errors.length > 0)
@@ -50,7 +50,7 @@ transactionService = {
         if (sellerInfo == null)
             errors.push(new LogicError('Error when get seller info'));
 
-        let answer = await addTransaction(buyerId, sellerId, country, address, postalCode, productId, productPrice, sellerPaymentName);
+        let answer = await addTransaction(buyerId, sellerId, country, address, postalCode, productId, productPrice, buyerPaymentName);
 
         if (answer == null)
             errors.push(new LogicError('Error when add the transaction'));
