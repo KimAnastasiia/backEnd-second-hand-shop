@@ -1,4 +1,4 @@
-const {putProduct,getUserInfo } = require('../services/userPrivateService')
+const {putProduct,getUserInfo, getUserById } = require('../services/userPrivateService')
 
 userPrivateController = {
     getUserInformation: async (req, res) => {
@@ -6,6 +6,16 @@ userPrivateController = {
 			let { email} = req.params
 			let userId = req.infoInApiKey.id
 			const user = await getUserInfo(email, userId)
+			return res.json(user)
+		}
+		catch (errors) {
+			return res.status(errors[0].code).json({ errors: errors} )
+		}
+	},
+	getUserById: async (req, res) => {
+		try {
+			let sellerId = req.query.id
+			const user = await getUserById(sellerId)
 			return res.json(user)
 		}
 		catch (errors) {

@@ -1,22 +1,25 @@
-const { getTransactionInfo, addTransaction } = require('../repositories/transactionRepository')
-const { getUserForTransaction } = require('../repositories/userPrivateRepository')
+const { getTransactionByBuyerId, addTransaction,getTransactionBySellerId } = require('../repositories/transactionRepository')
+const { getUserById } = require('../repositories/userPrivateRepository')
 const InputError = require('../errors/inputError')
 const LogicError = require('../errors/logicError')
 
 transactionService = {
-    getTransaction: async (buyerId) => {
+    getTransaction: async (buyerId, sellerId) => {
         let errors = []
-
-        if (buyerId == undefined)
-            errors.push(new InputError("buyerId", 'buyerId is undefined'));
+        let answer
+        if (buyerId == undefined && sellerId == undefined)
+            errors.push(new InputError("buyerId and sellerId", 'buyerId and sellerId are undefined'));
         // Errors in client INPUTS
         if (errors.length > 0)
             throw errors
-
-        let answer = await getTransactionInfo(buyerId);
+        if(buyerId) {
+            answer = await getTransactionByBuyerId(buyerId);
+        } else if(sellerId){
+             answer = await getTransactionBySellerId(sellerId);
+        }
 
         if (answer == null)
-            errors.push(new LogicError('Error when get the transactions of user ' + buyerId));
+            errors.push(new LogicError('Error when get the transactions of user'));
 
         // Errors in the logic of service
         if (errors.length > 0)
@@ -42,7 +45,7 @@ transactionService = {
         if (errors.length > 0)
             throw errors
 
-        let sellerInfo = await getUserForTransaction(sellerId)
+        let sellerInfo = await getUserById(sellerId)
         let {country,address, postalCode} =sellerInfo[0]
         if (sellerInfo == null)
             errors.push(new LogicError('Error when get seller info'));

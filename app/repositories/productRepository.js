@@ -48,7 +48,7 @@ productsRepository = {
 
         try{
             await database.connect();
-            products = await database.query("SELECT * FROM products where buyerId is NULL")
+            products = await database.query(`SELECT products.*, users.name  FROM products JOIN users ON products.sellerId=users.id where buyerId is NULL`)
             await database.disconnect();
         } catch (e){
             await database.disconnect();

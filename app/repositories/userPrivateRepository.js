@@ -15,11 +15,11 @@ userPrivateRepository = {
 
         return users
 	},
-    getUserForTransaction: async (sellerId) => {
+    getUserById: async (sellerId) => {
         let users = null;
         try{
             await database.connect();
-            users = await database.query("SELECT country, address, postalCode  FROM users WHERE id = ? ",[sellerId])
+            users = await database.query("SELECT country, address, postalCode, name, email, surname, birthday  FROM users WHERE id = ? ",[sellerId])
             await database.disconnect();
         } catch (e){
             await database.disconnect();

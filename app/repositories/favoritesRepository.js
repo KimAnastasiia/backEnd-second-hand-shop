@@ -6,11 +6,8 @@ favoritesRepository = {
         let favorites = null;
         try{
             await database.connect();
-            favorites = await database.query("SELECT *\n" +
-                "FROM favorites \n" +
-                "JOIN products \n" +
-                "ON favorites.productId=products.id\n" +
-                "WHERE userId = ?",[userId])
+            favorites = await database.query(`SELECT * FROM favorites JOIN products ON favorites.productId=products.id
+            WHERE userId = ?`,[userId])
             await database.disconnect();
         } catch (e){
             await database.disconnect();

@@ -4,8 +4,9 @@ transactionController = {
 	getTransaction: async (req, res) => {
        
         try {
-            let userId = req.infoInApiKey.id 
-            let transactions =await getTransaction(userId)
+            let buyerId = req.query.buyerId
+            let sellerId = req.query.sellerId
+            let transactions =await getTransaction(buyerId,sellerId)
             return res.json(transactions)
         }
         catch (errors) {

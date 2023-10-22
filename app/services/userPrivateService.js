@@ -1,4 +1,4 @@
-const { editUserInfo, getUser, getUserForTransaction } = require('../repositories/userPrivateRepository')
+const { editUserInfo, getUser, getUserById } = require('../repositories/userPrivateRepository')
 const InputError = require('../errors/inputError')
 const LogicError = require('../errors/logicError')
 const UnauthorizedError = require('../errors/unauthorizedError')
@@ -23,7 +23,7 @@ userPrivateService = {
 
         return user;
     },
-    getUserForTransaction: async (sellerId) => {
+    getUserById: async (sellerId) => {
         let errors = []
 
         if (sellerId == undefined)
@@ -32,7 +32,7 @@ userPrivateService = {
         if (errors.length > 0)
             throw errors
 
-        let user = await getUserForTransaction(sellerId)
+        let user = await getUserById(sellerId)
 
         if (user == null)
             errors.push(new LogicError('Error when get seller info'))

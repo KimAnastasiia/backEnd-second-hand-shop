@@ -1,12 +1,17 @@
 const database = require("./database")
 
 transactionRepository = {
-    getTransactionInfo: async (buyerId) => {
+    getTransactionByBuyerId: async (buyerId) => {
         let info = null;
 
         try{
             await database.connect();
-            info = await database.query("SELECT * FROM transaction where buyerId = ?",[buyerId])
+            info = await database.query(`
+            SELECT * 
+            FROM transaction
+            JOIN products
+            ON transaction.productId=products.id 
+            WHERE transaction.buyerId = ?`,[buyerId])
             await database.disconnect();
         } catch (e){
             await database.disconnect();
@@ -15,12 +20,31 @@ transactionRepository = {
 
         return info
     },
-    addTransaction: async (buyerId, sellerId, sellerCountry, selerAddress, sellerPostCode, productId, productPrice, sellerPaymentName) => {
+    getTransactionBySellerId: async (sellerId) => {
+        let info = null;
+
+        try{
+            await database.connect();
+            info = await database.query(`
+            SELECT * 
+            FROM transaction
+            JOIN products
+            ON transaction.productId = products.id  
+            WHERE transaction.sellerId = ?`,[sellerId])
+            await database.disconnect();
+        } catch (e){
+            await database.disconnect();
+            console.log(e) // ERROR IN DATABASE OR SQL
+        }
+
+        return info
+    },
+    addTransaction: async (buyerId, sellerId, sellerCountry, sellerAddress, sellerPostCode, productId, productPrice, sellerPaymentName) => {
         let insertInfo = null;
         try{
             await database.connect();
             insertInfo = await database.query("INSERT INTO transaction (buyerId, sellerId, sellerCountry, sellerAddress, sellerPostCode, productId, productPrice, sellerPaymentName) VALUES (?,?,?,?,?,?,?,?)",
-                [buyerId, sellerId, sellerCountry, selerAddress, sellerPostCode, productId, productPrice, sellerPaymentName])
+                [buyerId, sellerId, sellerCountry, sellerAddress, sellerPostCode, productId, productPrice, sellerPaymentName])
             await database.disconnect();
         } catch (e){
             await database.disconnect();
