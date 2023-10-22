@@ -1,5 +1,6 @@
 const usersService = require('../services/usersService')
-
+const jwt = require("jsonwebtoken");
+const activeApiKeys = require("../activeApiKeys")
 usersController = {
 	loginUser: async (req, res) => {
 		try {
@@ -14,8 +15,8 @@ usersController = {
 	postUser: async (req, res) => {
 		try {
 			let { email, password, name, surname, birthday, documentNumber, country, address, postalCode, documentIdentity } = req.body
-			const userId = await usersService.createUser(email, password,  name, surname, birthday, documentNumber, country, address, postalCode,documentIdentity)
-			return res.json({"userId": userId})
+			const apiKey = await usersService.createUser(email, password,  name, surname, birthday, documentNumber, country, address, postalCode,documentIdentity)
+			return res.json({apiKey})
 		}
 		catch (errors) {
 			return res.status(errors[0].code).json({ errors: errors} )
@@ -23,9 +24,14 @@ usersController = {
 	},
 	postUserPhoto: async (req, res) => {
 		try {
-			let {userId} = req.body
+			let {apiKey} = req.body
+			let infoInApiKey = jwt.verify(apiKey, "secret");
+			if ( infoInApiKey == undefined || activeApiKeys.indexOf(apiKey) == -1){
+				res.status(401).json({ errors: { msg:"no apiKey"} });
+				return 	
+			}
 			let file = req.files.photo
-			const answer = await usersService.createUserPhoto(file, userId)
+			const answer = await usersService.createUserPhoto(file, infoInApiKey.id)
 			return res.json(answer)
 		}
 		catch (errors) {

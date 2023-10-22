@@ -81,7 +81,30 @@ productsService = {
         if (errors.length > 0)
             throw errors
 
-        return user.insertId;
+        let users = await userRepository.getUsersByEmailAndPassword(email, password);
+        if (users == null)
+            errors.push(new LogicError('Error when access to users'));
+        else if (users.length == 0)
+            errors.push(new UnauthorizedError('Email and password dont match'));
+
+        // Errors in the logic of service
+        if (errors.length > 0)
+            throw errors
+
+        // Generate JWT Token
+        let apiKey = jwt.sign(
+            {
+                email: users[0].email,
+                id: users[0].id
+            },
+            "secret");
+        activeApiKeys.push(apiKey)
+
+        return {
+            apiKey: apiKey,
+            email: email,
+            id: users[0].id
+        }
     },
     createUserPhoto: async (file, userId) => {
 
