@@ -1,4 +1,4 @@
-const {putProduct,getUserInfo, getUserById } = require('../services/userPrivateService')
+const {putProduct,getUserInfo, getUserById, putUserPhoto } = require('../services/userPrivateService')
 
 userPrivateController = {
     getUserInformation: async (req, res) => {
@@ -27,6 +27,17 @@ userPrivateController = {
 		let userId = req.infoInApiKey.id
 		const answer = await putProduct( password, name, surname, documentIdentity, birthday, documentNumber, country, address, postalCode, userId)
 		return res.json(answer)
-	}
+	},
+	putUserPhoto: async (req, res) => {
+		try {
+			let id= req.infoInApiKey.id
+			let file = req.files.photo
+			const answer = await putUserPhoto(file,id)
+			return res.json(answer)
+		}
+		catch (errors) {
+			return res.status(errors[0].code).json({ errors: errors} )
+		}
+	},
 }
 module.exports =userPrivateController
